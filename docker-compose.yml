@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  mysql1:
+    container_name: mysql1
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+    restart: always
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret' # TODO: Change this
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  php1:
+    container_name: php1
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+    restart: always
+    image: ualmtorres/phalcon-apache-ubuntu
+    ports:
+      - "81:80"
+    volumes:
+      - ./html:/var/www/html
+  mysql2:
+    container_name: mysql2
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+    restart: always
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret' # TODO: Change this
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  php2:
+    container_name: php2
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 50M
+    restart: always
+    image: ualmtorres/phalcon-apache-ubuntu
+    ports:
+      - "82:80"
+    volumes:
+      - ./html:/var/www/html
+
+
+
